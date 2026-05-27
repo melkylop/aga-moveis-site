@@ -1,0 +1,46 @@
+# Dependabot · atualização automática de dependências
+# Documentação: https://docs.github.com/code-security/dependabot
+
+version: 2
+
+updates:
+  # Pacotes do npm (devDependencies do Babel CLI)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "America/Manaus"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "npm"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    # Atualizações de patch e minor são agrupadas em um único PR
+    # (reduz ruído quando várias deps sobem juntas)
+    groups:
+      babel:
+        patterns:
+          - "@babel/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions usadas no workflow de segurança
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "America/Manaus"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"

@@ -1,5 +1,7 @@
 # AGA Móveis · Site Institucional
 
+[![Esteira DevSecOps](https://github.com/melkylop/aga-moveis-site/actions/workflows/security.yml/badge.svg)](https://github.com/melkylop/aga-moveis-site/actions/workflows/security.yml)
+
 Site institucional da **AGA Móveis**, fábrica de estofados, camas box, colchões e poltronas localizada em Manaus / Amazonas. O site apresenta a empresa, suas linhas de produtos, processo de produção e canais de contato direto via WhatsApp.
 
 ---
