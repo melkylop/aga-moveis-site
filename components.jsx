@@ -230,7 +230,7 @@ const Stats = () => (
     <div className="eyebrow">/ Mais que uma fábrica de móveis</div>
     <div className="stats-grid">
       <div className="stat">
-        <div className="num">+<em>10</em></div>
+        <div className="num">+<em>8</em></div>
         <div className="caption">Anos atendendo famílias de Manaus</div>
       </div>
       <div className="stat">

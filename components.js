@@ -344,7 +344,7 @@ const Stats = () => /*#__PURE__*/React.createElement("section", {
   className: "stat"
 }, /*#__PURE__*/React.createElement("div", {
   className: "num"
-}, "+", /*#__PURE__*/React.createElement("em", null, "10")), /*#__PURE__*/React.createElement("div", {
+}, "+", /*#__PURE__*/React.createElement("em", null, "8")), /*#__PURE__*/React.createElement("div", {
   className: "caption"
 }, "Anos atendendo fam\xEDlias de Manaus")), /*#__PURE__*/React.createElement("div", {
   className: "stat"
