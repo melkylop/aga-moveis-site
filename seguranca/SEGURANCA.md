@@ -116,8 +116,32 @@ Resposta esperada em até 5 dias úteis.
 
 ---
 
-## 7. Histórico
+## 7. Esteira DevSecOps · GitHub Actions
+
+Workflow: [.github/workflows/security.yml](../.github/workflows/security.yml). Roda a cada `push`, `pull_request` e toda segunda 08:00 UTC.
+
+### Os 3 jobs
+
+| Job | Ferramenta | O que checa |
+|---|---|---|
+| `dependencies` | `npm audit` | Vulnerabilidades em pacotes (`--audit-level=high`) |
+| `sast` | Semgrep com `p/owasp-top-ten` + `p/javascript` + `p/react` + `p/security-audit` | Anti-padrões e OWASP Top 10 no JSX/JS |
+| `secrets` | Gitleaks 8.x (CLI) | Chaves/tokens/senhas vazadas no código e no histórico do Git |
+
+Semgrep e Gitleaks publicam relatórios SARIF na aba **Security → Code scanning** do repositório.
+
+### Branch protection na `main`
+
+Configurado via API. Bloqueia merge para `main` se algum dos 3 status checks falhar. Também bloqueia force-push e deleção de branch. Resoluções de comentários em PR são obrigatórias.
+
+### Notificações
+
+GitHub envia email automático para o autor do commit quando a esteira falha (configurável em <https://github.com/settings/notifications>).
+
+---
+
+## 8. Histórico
 
 | Data | Alteração |
 |---|---|
-| 2026-05-27 | Criação inicial. CSP, SRI, meta tags de segurança e referência de headers para deploy. |
+| 2026-05-27 | Criação inicial. CSP, SRI, meta tags de segurança e referência de headers para deploy. Esteira DevSecOps com npm audit + Semgrep + Gitleaks. Branch protection na main exigindo 3 status checks. |
