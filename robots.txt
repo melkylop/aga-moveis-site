@@ -6,4 +6,4 @@ Disallow: /uploads/
 Disallow: /legal/LGPD.md
 Disallow: /AGENTS.md
 
-Sitemap: https://agamoveis.com.br/sitemap.xml
+Sitemap: https://aga-moveis-site.sandesmelky.workers.dev/sitemap.xml

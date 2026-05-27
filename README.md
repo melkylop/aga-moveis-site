@@ -2,7 +2,11 @@
 
 [![Esteira DevSecOps](https://github.com/melkylop/aga-moveis-site/actions/workflows/security.yml/badge.svg)](https://github.com/melkylop/aga-moveis-site/actions/workflows/security.yml)
 
+**Site em produção:** <https://aga-moveis-site.sandesmelky.workers.dev>
+
 Site institucional da **AGA Móveis**, fábrica de estofados, camas box, colchões e poltronas localizada em Manaus / Amazonas. O site apresenta a empresa, suas linhas de produtos, processo de produção e canais de contato direto via WhatsApp.
+
+Hospedado em **Cloudflare** (CDN global, HTTPS automático). Cada `git push` em `main` dispara deploy automático.
 
 ---
 
