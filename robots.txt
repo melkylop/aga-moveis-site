@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /testes/
+Disallow: /seguranca/
+Disallow: /uploads/
+Disallow: /legal/LGPD.md
+Disallow: /AGENTS.md
+
+Sitemap: https://agamoveis.com.br/sitemap.xml

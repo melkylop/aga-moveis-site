@@ -1,0 +1,17 @@
+{
+  "name": "aga-moveis-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site institucional da AGA Móveis — SPA estática React via CDN, JSX pré-compilado.",
+  "scripts": {
+    "build": "npx --no-install babel components.jsx -o components.js --presets=@babel/preset-react && npx --no-install babel app.jsx -o app.js --presets=@babel/preset-react",
+    "watch:components": "npx --no-install babel components.jsx -o components.js --presets=@babel/preset-react --watch",
+    "watch:app": "npx --no-install babel app.jsx -o app.js --presets=@babel/preset-react --watch",
+    "serve": "python -m http.server 8000"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.0",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-react": "^7.24.0"
+  }
+}

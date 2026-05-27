@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Segurança · ver seguranca/SEGURANCA.md e seguranca/headers.exemplo.conf -->
+<!-- CSP estrita: 'unsafe-inline' (style) é exigido pelo React (atributo style={{}}). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';" />
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+
+<title>AGA Móveis · Estofados, Camas & Conforto</title>
+<meta name="description" content="AGA Móveis · Fábrica de estofados, camas box, colchões e poltronas em Manaus / AM. Sob medida, com produção própria desde 2008." />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="AGA Móveis" />
+<meta property="og:title" content="AGA Móveis · Estofados, Camas & Conforto" />
+<meta property="og:description" content="Fábrica de estofados, camas box, colchões e poltronas em Manaus / AM. Sob medida, com produção própria desde 2008." />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:image" content="imagens/produtos/xangai-vinho.jpg" />
+<meta property="og:url" content="https://agamoveis.com.br/" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AGA Móveis · Estofados, Camas & Conforto" />
+<meta name="twitter:description" content="Fábrica de estofados, camas box, colchões e poltronas em Manaus / AM. Sob medida, com produção própria desde 2008." />
+<meta name="twitter:image" content="imagens/produtos/xangai-vinho.jpg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+
+  <!-- JSX pré-compilado (npm run build) — sem Babel no navegador. -->
+  <script src="components.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

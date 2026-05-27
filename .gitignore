@@ -1,0 +1,32 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+.claude/
+.cursor/
+*.swp
+*~
+
+# Logs e temporários
+*.log
+*.tmp
+*.bak
+
+# Node (se um dia migrar para build)
+node_modules/
+dist/
+.cache/
+
+# Sensíveis (não há hoje, mas a regra fica)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Documentação privada do criador (não sobe para o GitHub)
+COMO-RODAR.md

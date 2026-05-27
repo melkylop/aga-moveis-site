@@ -1,0 +1,154 @@
+# DevSecOps · Pipeline de segurança automatizado
+#
+# Roda em todo push, todo pull request e uma vez por semana (segunda 08:00 UTC = 05:00 Manaus)
+# para pegar CVEs novas mesmo sem mudança no código.
+#
+# Três jobs paralelos:
+#   1. dependencies  → npm audit (vulnerabilidades em pacotes)
+#   2. sast          → Semgrep com regras OWASP Top 10 + JS + React
+#   3. secrets       → Gitleaks (chaves/tokens/senhas vazados no histórico)
+#
+# Qualquer job que falhar quebra o workflow inteiro — o PR/push é marcado vermelho.
+# Documentação: seguranca/SEGURANCA.md
+
+name: DevSecOps · Pipeline de Segurança
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+  schedule:
+    - cron: '0 8 * * 1'
+
+permissions:
+  contents: read
+  # Necessário para fazer upload de SARIF para a aba "Security → Code scanning".
+  # Em repos privados sem Advanced Security, o upload falha silenciosamente
+  # (continue-on-error nos steps) — a esteira continua válida.
+  security-events: write
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 1) Análise de dependências
+  # ---------------------------------------------------------------------------
+  dependencies:
+    name: Dependências · npm audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependências (npm ci)
+        run: npm ci
+
+      - name: Auditar pacotes (falha em high ou critical)
+        # --audit-level=high  → ignora low/moderate, falha só em vuln séria
+        # Como o projeto só tem devDependencies (Babel CLI), o impacto em
+        # produção é zero. Mesmo assim, manter a esteira limpa é boa prática.
+        run: npm audit --audit-level=high
+
+  # ---------------------------------------------------------------------------
+  # 2) SAST · Análise estática de código
+  # ---------------------------------------------------------------------------
+  sast:
+    name: SAST · Semgrep (OWASP Top 10)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Semgrep
+        run: pip install --quiet semgrep
+
+      - name: Rodar Semgrep (OWASP + JS + React + Security Audit)
+        # Os 4 packs cobrem:
+        #   p/owasp-top-ten   → A01-A10 da OWASP
+        #   p/javascript      → padrões inseguros de JS
+        #   p/react           → padrões inseguros de React (xss, hooks, etc)
+        #   p/security-audit  → checagens gerais (eval, hardcoded creds, etc)
+        # --error            → exit 1 se encontrar qualquer finding
+        # --metrics=off      → não envia telemetria para o Semgrep.dev
+        # --sarif            → gera relatório no formato SARIF para a aba Security
+        # --exclude          → ignora pastas que não são código nosso
+        run: |
+          semgrep \
+            --config=p/owasp-top-ten \
+            --config=p/javascript \
+            --config=p/react \
+            --config=p/security-audit \
+            --error \
+            --metrics=off \
+            --sarif --output=semgrep.sarif \
+            --exclude=node_modules \
+            --exclude=uploads \
+            --exclude=imagens \
+            --exclude=app.js \
+            --exclude=components.js
+
+      - name: Upload do relatório SARIF (aparece em Security → Code scanning)
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        continue-on-error: true
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+
+  # ---------------------------------------------------------------------------
+  # 3) Verificação de segredos
+  # ---------------------------------------------------------------------------
+  secrets:
+    name: Segredos · Gitleaks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout (com histórico completo)
+        uses: actions/checkout@v4
+        with:
+          # Gitleaks precisa do histórico inteiro para escanear commits antigos.
+          fetch-depth: 0
+
+      - name: Instalar Gitleaks
+        run: |
+          GITLEAKS_VERSION=8.18.4
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o gitleaks.tar.gz
+          tar -xzf gitleaks.tar.gz gitleaks
+          sudo mv gitleaks /usr/local/bin/
+          gitleaks version
+
+      - name: Escanear código e histórico do Git
+        # --no-banner   → output limpo
+        # --redact      → omite o segredo do log (não vaza ainda mais)
+        # --verbose     → mostra onde foi encontrado
+        # --report-*    → gera SARIF para a aba Security do GitHub
+        # Exit code 1   → quebra o workflow se encontrar qualquer segredo
+        run: |
+          gitleaks detect \
+            --source . \
+            --no-banner \
+            --redact \
+            --verbose \
+            --report-format sarif \
+            --report-path gitleaks.sarif \
+            --exit-code 1
+
+      - name: Upload do relatório SARIF (aparece em Security → Code scanning)
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        continue-on-error: true
+        with:
+          sarif_file: gitleaks.sarif
+          category: gitleaks
