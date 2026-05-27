@@ -54,6 +54,8 @@ produção (no navegador):
 
 **Fluxo de trabalho:** sempre que editar `app.jsx` ou `components.jsx`, rodar `npm run build` antes de testar/deploy. Em modo desenvolvimento ativo, use `npm run watch:components` em um terminal e `npm run watch:app` em outro.
 
+**Deploy (Cloudflare):** `npm run build` faz duas coisas — compila JSX (`build:js`) e copia os arquivos finais para `dist/` (`build:assets`). O Cloudflare usa o `wrangler.jsonc` que aponta `assets.directory` para `./dist`. A pasta `dist/` é **gerada** (no `.gitignore`) — não editar manualmente, recompilar.
+
 ### 3.2 Componentes em `components.jsx`
 
 Todos os componentes vivem no escopo global (são anexados em `window` no final do arquivo). Eles são consumidos por `app.jsx` na ordem:

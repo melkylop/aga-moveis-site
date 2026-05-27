@@ -16,10 +16,11 @@ desktop.ini
 *.tmp
 *.bak
 
-# Node (se um dia migrar para build)
+# Node / build output
 node_modules/
 dist/
 .cache/
+.wrangler/
 
 # Sensíveis (não há hoje, mas a regra fica)
 .env
