@@ -38,7 +38,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configurar Node.js
         uses: actions/setup-node@v6
@@ -64,7 +64,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configurar Python
         uses: actions/setup-python@v6
@@ -116,7 +116,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout (com histórico completo)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           # Gitleaks precisa do histórico inteiro para escanear commits antigos.
           fetch-depth: 0
