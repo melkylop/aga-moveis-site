@@ -12,7 +12,7 @@
     "serve": "python -m http.server 8000"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.0",
+    "@babel/cli": "^8.0.5",
     "@babel/core": "^7.24.0",
     "@babel/preset-react": "^7.24.0"
   }
